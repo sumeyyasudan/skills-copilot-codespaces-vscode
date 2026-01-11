@@ -20,20 +20,8 @@ permissions:
   contents: write
 
 jobs:
-  # The purpose of this job is to output the current step number
-  # (retreived from the step file). This output variable can
-  # then be referenced in other jobs and used in conditional
-  # expressions.
   get_current_step:
-    name: Check current step number
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - id: get_step
-        run: echo "current_step=$(cat ./.github/steps/-step.txt)" >> $GITHUB_OUTPUT
-    outputs:
-      current_step: ${{ steps.get_step.outputs.current_step }}
+    uses: ./.github/workflows/get-current-step.yml
 
   on_functionadded:
     name: On Creation of a Javascript function
