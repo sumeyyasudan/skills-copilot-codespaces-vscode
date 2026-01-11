@@ -1,0 +1,23 @@
+name: Get Current Step
+
+# Reusable workflow to get the current step number
+# This eliminates code duplication across all step workflows
+
+on:
+  workflow_call:
+    outputs:
+      current_step:
+        description: "The current step number from the step file"
+        value: ${{ jobs.get_current_step.outputs.current_step }}
+
+jobs:
+  get_current_step:
+    name: Check current step number
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - id: get_step
+        run: echo "current_step=$(cat ./.github/steps/-step.txt)" >> $GITHUB_OUTPUT
+    outputs:
+      current_step: ${{ steps.get_step.outputs.current_step }}
